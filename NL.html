@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neverlose 代理服務</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --main-red: #ff0000;
+            --dark-red: #990000;
+            --black: #000000;
+            --dark-gray: #1a1a1a;
+            --light-gray: #333333;
+            --text-color: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: var(--black);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #cc0000, #800000);
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid #ff3333;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 20%, rgba(0, 0, 0, 0.5) 70%);
+            z-index: 1;
+        }
+        
+        header h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px #ff3333, 0 0 20px #ff0000;
+            animation: pulse 2s infinite;
+            color: #ffffff;
+        }
+        
+        header p {
+            position: relative;
+            z-index: 2;
+            color: #ffffff !important;
+            font-weight: bold;
+            font-size: 1.4rem !important;
+            text-shadow: 0 0 10px #ff3333, 0 0 15px #ff0000 !important;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        section {
+            margin: 3rem 0;
+            background-color: #222222;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.8s ease;
+            border: 1px solid #444444;
+        }
+        
+        section.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        h2 {
+            color: #ff3333;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #ff3333;
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+        }
+        
+        h2 img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        
+        h3 {
+            color: #ff5555;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        h3 img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        
+        p, li {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #f0f0f0;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 1.5rem;
+        }
+        
+        ul li::before {
+            content: "•";
+            color: #ff3333;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        a {
+            color: #ff5555;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        a:hover {
+            color: #ffffff;
+        }
+        
+        a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #ff3333;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+        
+        a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .links a {
+            background-color: #cc0000;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+        
+        .links a:hover {
+            background-color: #ff0000;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .highlight {
+            color: #ff3333;
+            font-weight: bold;
+        }
+        
+        .glow {
+            text-shadow: 0 0 8px #ff3333;
+        }
+        
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 10px #ff3333;
+            }
+            50% {
+                text-shadow: 0 0 20px #ff3333, 0 0 30px #ff0000;
+            }
+            100% {
+                text-shadow: 0 0 10px #ff3333;
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .btn {
+            background-color: #cc0000;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.6s;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            background-color: #ff0000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #222222, #cc0000);
+            margin-top: 3rem;
+            border-top: 3px solid #ff3333;
+        }
+        
+        .particle {
+            position: fixed;
+            background-color: #ff3333;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+    
+    <header class="animate__animated animate__fadeIn">
+        <div class="container">
+            <h1 class="animate__animated animate__pulse animate__infinite">Neverlose 代理服務</h1>
+            <p class="animate__animated animate__fadeIn animate__delay-1s" style="color: var(--main-red); font-weight: bold; font-size: 1.2rem; text-shadow: 0 0 5px var(--main-red);">
+                當你看到這個頁面代表您被我們DMS SERVICE邀請加入到 NL 代理服務内，若你有興趣請回復我們的邀請，我們會在第一時間處理，若你沒有興趣請忽略此訊息
+            </p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section id="section1" class="animate__animated">
+            <h2><span class="highlight">📌</span> 此代理僅包括Neverlose相關的服務以及商品</h2>
+            <p class="animate__animated animate__fadeIn animate__delay-1s">我們專注於提供Neverlose的相關服務與商品，確保您獲得最優質的體驗。</p>
+        </section>
+        
+        <section id="section2" class="animate__animated">
+            <h2><span class="highlight">⚠️</span> 此代理為邀請制，無法通過主動消費獲得相關權限</h2>
+            <p class="animate__animated animate__fadeIn animate__delay-1s">加入此代理皆爲<span class="highlight glow">免費加入</span>，無任何而外費用。我們注重品質與服務，僅通過邀請制度接納新用戶。</p>
+        </section>
+        
+        <section id="section3" class="animate__animated">
+            <h2><span class="highlight">❓</span> 如何加入</h2>
+            <h3><span class="highlight">🔢</span> 請到以下頻道申請</h3>
+            <p class="animate__animated animate__fadeIn animate__delay-1s">
+                <a href="https://discord.com/channels/1017366806509400064/1327765116304756776" target="_blank" class="floating">https://discord.com/channels/1017366806509400064/1327765116304756776</a>
+            </p>
+            
+            <h3><span class="highlight">🔢</span> 商城老闆特別通道</h3>
+            <p class="animate__animated animate__fadeIn animate__delay-2s">
+                如果您為商城老闆，并且業内較為有名可以留意您的私聊我們都會發送相關資訊給到你
+            </p>
+        </section>
+        
+        <section id="section-discord" class="animate__animated">
+            <h2><span class="highlight">💬</span> Discord 社群</h2>
+            <p class="animate__animated animate__fadeIn animate__delay-1s">
+                加入我們的 Discord 社群，獲取最新資訊和支援：
+            </p>
+            <div class="links">
+                <a href="https://discord.gg/dms666" target="_blank" class="btn">加入 Discord</a>
+            </div>
+        </section>
+
+        
+        <section id="section5" class="animate__animated">
+            <h2><span class="highlight">ℹ️</span> 其他信息</h2>
+            <p class="animate__animated animate__fadeIn animate__delay-1s">
+                <a href="https://discord.com/channels/1017366806509400064/1148680179741380609" target="_blank" class="floating">https://discord.com/channels/1017366806509400064/1148680179741380609</a>
+            </p>
+        </section>
+    </div>
+    
+    <footer class="animate__animated animate__fadeIn">
+        <div class="container">
+            <p>&copy; DMS SERVICE. 版權所有.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 滾動動畫效果
+        const sections = document.querySelectorAll('section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    entry.target.classList.add('animate__fadeInUp');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+        
+        // 粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 隨機位置
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                
+                // 隨機大小
+                const size = Math.random() * 3 + 1;
+                
+                // 設置樣式
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.opacity = Math.random() * 0.5 + 0.3;
+                
+                // 添加動畫
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s ease-in-out infinite`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
+                
+                // 移動粒子
+                moveParticle(particle);
+            }
+        }
+        
+        function moveParticle(particle) {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            const duration = Math.random() * 15 + 5;
+            
+            particle.style.transition = `all ${duration}s linear`;
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            
+            setTimeout(() => {
+                moveParticle(particle);
+            }, duration * 1000);
+        }
+        
+        // 滑鼠跟隨效果
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${mouseX}px`;
+            particle.style.top = `${mouseY}px`;
+            particle.style.width = '2px';
+            particle.style.height = '2px';
+            particle.style.opacity = '0.8';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.style.transform = 'translate(30px, 30px)';
+                particle.style.opacity = '0';
+            }, 50);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 1000);
+        });
+        
+        // 初始化
+        window.addEventListener('load', () => {
+            createParticles();
+        });
+    </script>
+</body>
+</html>
